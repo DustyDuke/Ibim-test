@@ -1,0 +1,77 @@
+.dataTable {
+	margin: 20px auto;
+	text-align: center;
+}
+table{
+	border: 1px solid transparent;
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid grey;
+	border-collapse: collapse;
+} 
+th:last-child,
+td:last-child {
+	border: none;
+	text-align: left;
+}
+table,
+.buttons {
+	width: 600px;
+	margin: 0 auto;
+}
+.buttons button {
+margin: 5px 0;
+}
+
+form {
+	display: block;
+	margin: 20px;
+	padding: 20px;
+	width: 600px;
+	border: 1px solid grey;
+	border-radius: 10px;
+}
+input[type="text"] {
+	width: 80%;
+	padding: 10px;
+	margin: 20px;
+}
+
+input[type="submit"] {
+padding: 10px;
+}
+
+.modal-close {
+	position: absolute;
+	right: 25px;
+	top: 35px;
+	color: #fff;
+	font-size: 32px;
+	cursor: pointer;
+	font-weight: bold;
+}
+ .modal-window {
+ 	opacity: 1;
+	z-index: 1;
+	width: 700px;
+	min-height: 30%;
+	background-color: #fff;
+	padding: 10px 10px 25px 10px;
+	margin: 50px auto 0;
+	border: 1px solid #fff;
+	border-radius: 10px;
+	text-align: center;
+}
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+}
+.modal-overlay {
+	background: rgba( 0, 0, 0, .8);
+}
