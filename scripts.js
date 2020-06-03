@@ -7,6 +7,13 @@ let users = [
 
 console.log(users)
 
+fetch('https://github.com/DustyDuke/Ibim-test/blob/master/SourceData_JSON/big_data_persons.json')
+  .then(response => response.json())
+  .then(commits => alert("ok"));
+
+
+
+
 const toUsersTable = user => `
 <tr><td>${user.id}</td><td>${user.name}</td><td>${user.age}</td><td><button class="removeButton">&times;</button></td></tr>
 `
