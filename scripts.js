@@ -1,35 +1,33 @@
-let users = [
-{id: '3', name: 'Bendi Manos', age: 20},
-{id: '2', name: 'Al Rayhan', age: 40},
-{id: '1', name: 'Ali Sayed', age: 13},
-{id: '4', name: 'Ali Sayeda', age: 20}
-]
-
-console.log(users)
-
-fetch('https://github.com/DustyDuke/Ibim-test/blob/master/SourceData_JSON/big_data_persons.json')
+let users = []
+let row = []
+async function getUsers(){
+	let response = await fetch('https://ibim-test.firebaseio.com/users/.json/')
   .then(response => response.json())
-  .then(commits => alert("ok"));
+  .then(data => {data.map(user => users.push(user))
+  Render()
+row = Array.from(document.querySelectorAll('tr'))})
+   .catch(console.log.bind(console));
+}
 
+getUsers()
+ 
+ 
 
-
-
+//console.log(response)
 const toUsersTable = user => `
-<tr><td>${user.id}</td><td>${user.name}</td><td>${user.age}</td><td><button class="removeButton">&times;</button></td></tr>
+<tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">&times;</button></td></tr>
 `
 
-
-function render() {
-
+function Render(){
 const htmlTable = users.map(user => toUsersTable(user)).join('')
 document.querySelector('table').insertAdjacentHTML('beforeEnd', htmlTable)
 }
 
-render()
-
+//console.log(htmlTable)
 
 let tbody = document.querySelectorAll('tBody')[0]
-let row = Array.from(document.querySelectorAll('tr'))
+
+
 function SortAge(){
 let sortAge = row.slice(1).sort((rowA, rowB) => rowA.cells[2].innerHTML > rowB.cells[2].innerHTML ? 1 : -1)
   tbody.append(...sortAge)
@@ -67,9 +65,9 @@ addForm.insertAdjacentHTML('afterbegin', `
 </div>
 <div class="modal-body" data-content>
 	<form method="post" onsubmit="alert('submit!')">
-<input type="text" placeholder="Введите ID" value="" />
-<input type="text" placeholder="Введите ФИО"  value="" />
-<input type="text" placeholder="Введите возраст" value="" />
+<input type="text" placeholder="Введите ID" />
+<input type="text" placeholder="Введите ФИО"  />
+<input type="text" placeholder="Введите возраст" />
 <input type="submit" value="Добавить">
 </form>
 <div class="modal-body" data-content>
@@ -81,9 +79,9 @@ document.body.appendChild(addForm)
 }
 
 function addData(){
-let inputs = Array.from(document.querySelectorAll('input'))
-
+let inputs = document.querySelectorAll('input')
+let res = 
 console.log(inputs)
 }
-AddUser()
-addData()
+//AddUser()
+//AddData()
