@@ -1,12 +1,17 @@
 let users = []
 let row = []
+async function getUsers(){
+	let response = await fetch('https://ibim-test.firebaseio.com/users/.json/')
+  .then(response => response.json())
+  .then(data => {data.map(user => users.push(user))
+  Render()
+row = Array.from(document.querySelectorAll('tr'))})
+}
 
- 
- 
+getUsers()
 
-//console.log(response)
 const toUsersTable = user => `
-<tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">&times;</button></td></tr>
+<tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
 `
 
 function Render(){
@@ -14,7 +19,7 @@ const htmlTable = users.map(user => toUsersTable(user)).join('')
 document.querySelector('table').insertAdjacentHTML('beforeEnd', htmlTable)
 }
 
-//console.log(htmlTable)
+// ==== Table Sort
 
 let tbody = document.querySelectorAll('tBody')[0]
 
@@ -43,36 +48,32 @@ table.onclick = function(event) {
     removeRow.remove()
 }
 
-
-function AddUser(){
-let addForm = document.createElement('div')
-addForm.insertAdjacentHTML('afterbegin', `
-	<div class="modal-overlay"  data-close='true'>
-<div class="modal-window">
-<span class="modal-close" data-close='true'>&times;</span>
-<div class="modal-header">
-	
-<h2 class="modal-title">Добавить пользователя</h2>
-</div>
-<div class="modal-body" data-content>
-	<form method="post" onsubmit="alert('submit!')">
-<input type="text" placeholder="Введите ID" />
-<input type="text" placeholder="Введите ФИО"  />
-<input type="text" placeholder="Введите возраст" />
-<input type="submit" value="Добавить">
-</form>
-<div class="modal-body" data-content>
-</div>
-</div>
-</div>
-`)
-document.body.appendChild(addForm)
+//===== Modal Window
+let showForm = document.querySelector('.addUserForm')
+function AddUser() {	
+	showForm.classList.remove('hide')
 }
 
-function addData(){
-let inputs = document.querySelectorAll('input')
-let res = 
-console.log(inputs)
+function ModalClose() {
+	showForm.classList.add('hide')
 }
-//AddUser()
-//AddData()
+
+let overlayClose = document.querySelector('.modal-overlay')
+overlayClose.onclick = function(event) {
+     if(event.target != this) return;
+     ModalClose()
+}
+//=== Add User Form
+let input = Array.from(document.querySelectorAll('input'))
+
+input = input.slice(0, input.length-1)
+
+input.validity = {  
+  valid: false, // Поле валидно
+  rangeOverflow: false, // Значение превосходит атрибут max
+  rangeUnderflow: true, // Значение меньше атрибута min
+ tooLong: false, // Значение слишком длинное
+  tooShort: false, // Значение слишком короткое
+  typeMismatch: false, // Значение не соответствует указаному атрибуту type
+  valueMissing: false, // Отсутствует обязательное значение
+};
