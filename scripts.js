@@ -1,15 +1,6 @@
 let users = []
 let row = []
-async function getUsers(){
-	let response = await fetch('https://ibim-test.firebaseio.com/users/.json/')
-  .then(response => response.json())
-  .then(data => {data.map(user => users.push(user))
-  Render()
-row = Array.from(document.querySelectorAll('tr'))})
-   .catch(console.log.bind(console));
-}
 
-getUsers()
  
  
 
