@@ -16,6 +16,27 @@
 		<button onclick="SortAge()">Отсортировать по возрасту</button><br />
 		<button onclick="AddUser()">Добавить строку</button>
 	</p>
+</div>
+	<div class="addUserForm hide">
+		<div class="modal-overlay">
+<div class="modal-window">
+<span class="modal-close" onclick="ModalClose()">&times;</span>
+<div class="modal-header">
+	
+<h2 class="modal-title">Добавить пользователя</h2>
+</div>
+<div class="modal-body" data-content>
+	<form >
+<input type="text" placeholder="Введите ID" id="idx" name="idx" />
+<input type="text" placeholder="Введите ФИО" max="10" id="name" name="name"/>
+<input type="text" placeholder="Введите возраст" max="1000" id="age" name="age"/>
+<input type="button"  value="Сохранить">
+</form>
+<div class="modal-body" data-content>
+</div>
+</div>
+</div>
+	</div>
 	</div>
 <div class="dataTable" id="table">
 	<table>
