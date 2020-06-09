@@ -68,7 +68,7 @@ sendform.addEventListener('click', function(e) {
 if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
   
 		 let user = {
-		 	      ID: id.value,
+	ID: id.value,
             Name: name.value,
             Age: age.value
         };
@@ -79,7 +79,7 @@ if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
         	headers: {'Content-type': 'application/json'}
         	})
                 .then(response => response.json())
-				.then(data => { console.log(data)
+				.then(user => { console.log(user)
                 users.push(user)
                   let newUser = `
                 <tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
