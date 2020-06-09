@@ -79,7 +79,8 @@ if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
         	headers: {'Content-type': 'application/json'}
         	})
                 .then(response => response.json())
-				.then(user => { console.log(user)
+				.then(data => { console.log(data)
+					       console.log(user)
                 users.push(user)
                   let newUser = `
                 <tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
