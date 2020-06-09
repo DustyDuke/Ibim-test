@@ -4,8 +4,8 @@ let row = []
 async function getUsers(){
 	await fetch('https://ibim-test.firebaseio.com/users.json')
   .then(response => response.json())
-  .then(data => {console.log(data)
-  	data.map(user => users.push(user))
+  .then(data => {
+    for (const [key, value] of Object.entries(data)) { users.push(value);}
   Render()
 row = Array.from(document.querySelectorAll('tr'))})
 }
@@ -58,7 +58,7 @@ overlayClose.onclick = function(e) {
 //=== User Form Validation
 
 let sendform = document.querySelector('input[type="button"]')
-let form = document.querySelector('form')
+let form = document.querySelector('addUser')
 let inputs = Array.from(document.querySelectorAll('input[type="text"]'))
 
 sendform.addEventListener('click', function(e) {
@@ -68,28 +68,25 @@ sendform.addEventListener('click', function(e) {
 if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
   
 		 let user = {
-	ID: id.value,
+		 	      ID: id.value,
             Name: name.value,
             Age: age.value
         };
-        console.log(JSON.stringify(user))
         fetch(`https://ibim-test.firebaseio.com/users.json`, 
         	{method: 'POST',
         	body: JSON.stringify(user),
         	headers: {'Content-type': 'application/json'}
         	})
-                .then(response => response.json())
-				.then(data => { console.log(data)
-					       console.log(user)
-                users.push(user)
+        .then(response => response.json())
+				.then(data => {
                   let newUser = `
                 <tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
                 `
                 document.querySelector('table').insertAdjacentHTML('beforeEnd', newUser)
                                 })
-                .catch(alert)
-                 .then(ModalClose())
-                 .then(alert('Пользователь добавлен'))
+         .catch(alert)
+         .then(ModalClose())
+        .then(alert('Пользователь добавлен'))
                
   return true;
 	} else false;
