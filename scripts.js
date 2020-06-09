@@ -2,7 +2,7 @@
 let users = []
 let row = []
 async function getUsers(){
-	let response = await fetch('https://ibim-test.firebaseio.com/users.json')
+	await fetch('https://ibim-test.firebaseio.com/users.json')
   .then(response => response.json())
   .then(data => {console.log(data)
   	data.map(user => users.push(user))
@@ -80,9 +80,9 @@ if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
         	})
                 .then(response => response.json())
 				.then(data => { console.log(data)
-                users.push(data)
+                users.push(user)
                   let newUser = `
-                <tr><td>${data.ID}</td><td>${data.Name}</td><td>${data.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
+                <tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
                 `
                 document.querySelector('table').insertAdjacentHTML('beforeEnd', newUser)
                                 })
