@@ -10,6 +10,7 @@ th,
 td {
 	border: 1px solid grey;
 	border-collapse: collapse;
+	padding: 5px;
 } 
 th:last-child,
 td:last-child {
@@ -21,10 +22,37 @@ table,
 	width: 600px;
 	margin: 0 auto;
 }
-.buttons button {
-margin: 5px 0;
+.buttons button,
+input[type="button"],
+.removeButton {
+	margin: 5px 0;
+	display: inline-block;
+    font-weight: 400;
+    border: 2px solid #343a40;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
 }
-
+.buttons button:hover{
+	color: #fff;
+	background-color: #343a40;
+}
+.removeButton {
+    color: #dc3545;
+    border: 2px solid #dc3545;
+    background-color:  transparent;
+    margin: 5px;
+    outline: none;
+}
+.removeButton:hover {
+	color: #fff;
+	background-color: #dc3545;
+}
 form {
 	display: block;
 	margin: 20px;
@@ -33,20 +61,24 @@ form {
 	border: 1px solid grey;
 	border-radius: 10px;
 }
-input[type="text"] {
+.hide{
+	display: none;
+}
+input[type="text"],
+input[type="number"] {
 	width: 80%;
 	padding: 10px;
 	margin: 20px;
 }
 
-input[type="submit"] {
-padding: 10px;
+input[type="text"]:invalid {
+	border-color: red;
 }
 
 .modal-close {
 	position: absolute;
-	right: 25px;
-	top: 35px;
+	right: 140px;
+	top: 20px;
 	color: #fff;
 	font-size: 32px;
 	cursor: pointer;
@@ -70,7 +102,6 @@ padding: 10px;
 	right: 0;
 	bottom: 0;
 	left: 0;
-
 }
 .modal-overlay {
 	background: rgba( 0, 0, 0, .8);
