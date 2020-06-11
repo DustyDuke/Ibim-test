@@ -78,7 +78,7 @@ if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
         	headers: {'Content-type': 'application/json'}
         	})
         .then(response => response.json())
-				.then(data => {
+				.then(data => { users.push(person)
                   let newPerson = `
                 <tr><td>${person.ID}</td><td>${person.Name}</td><td>${person.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
                 `
@@ -86,6 +86,7 @@ if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
                                 })
          .catch(alert)
          .then(ModalClose())
+	.then(inputs.map(input => input.value = ''))
         .then(alert('Пользователь добавлен'))
                
   return true;
