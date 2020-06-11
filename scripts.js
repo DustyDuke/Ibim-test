@@ -11,8 +11,8 @@ row = Array.from(document.querySelectorAll('tr'))})
 }
 
 getUsers()
-const toUsersTable = user => `
-<tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
+const toUsersTable = person => `
+<tr><td>${person.ID}</td><td>${person.Name}</td><td>${person.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
 `
 function Render(){
 const htmlTable = users.map(user => toUsersTable(user)).join('')
@@ -67,22 +67,22 @@ sendform.addEventListener('click', function(e) {
 	let age = inputs[2]
 if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
   
-		 let user = {
-		 	      ID: id.value,
+		 let person = {
+		ID: id.value,
             Name: name.value,
             Age: age.value
         };
         fetch(`https://ibim-test.firebaseio.com/users.json`, 
         	{method: 'POST',
-        	body: JSON.stringify(user),
+        	body: JSON.stringify(person),
         	headers: {'Content-type': 'application/json'}
         	})
         .then(response => response.json())
 				.then(data => {
-                  let newUser = `
-                <tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
+                  let newPerson = `
+                <tr><td>${person.ID}</td><td>${person.Name}</td><td>${person.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
                 `
-                document.querySelector('table').insertAdjacentHTML('beforeEnd', newUser)
+                document.querySelector('table').insertAdjacentHTML('beforeEnd', newPerson)
                                 })
          .catch(alert)
          .then(ModalClose())
