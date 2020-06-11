@@ -101,6 +101,7 @@ let value = inp.value
 let match = ids.forEach(el => {
 	if(+el === +value){
 		return (alert('Такой ID уже есть'))
+		return false
  } else return;
 	})
  	if(!inp.value){
