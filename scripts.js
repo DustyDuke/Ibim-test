@@ -11,8 +11,8 @@ row = Array.from(document.querySelectorAll('tr'))})
 }
 
 getUsers()
-const toUsersTable = person => `
-<tr><td>${person.ID}</td><td>${person.Name}</td><td>${person.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
+const toUsersTable = user => `
+<tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td><button class="removeButton">Удалить</button><button class="editButton">Изменить</button></td></tr>
 `
 function Render(){
 const htmlTable = users.map(user => toUsersTable(user)).join('')
@@ -38,23 +38,96 @@ let SortName = () => {
 	tbody.append(...sortName)
 }
 
-table.onclick = function(event) {
+// Remove User
+table.addEventListener('click', function(event) {
       if (event.target.className != 'removeButton') return;
-	let removeRow = event.target.closest('tr')
+  let removeRow = event.target.closest('tr')
+  let userID = removeRow.querySelector('td').innerHTML
+
+ fetch(`https://ibim-test.firebaseio.com/users.json`)
+        .then(response => response.json())
+        .then(data => { 
+          let a = Object.values(data).map(el => Object.values(el)[1])        
+        let delID = a.indexOf(`${userID}`)
+         fetch(`https://ibim-test.firebaseio.com/users/${delID}.json`, {method: "DELETE"})
+        .then(response => response.json())  
+        }
+         ) 
     removeRow.remove()
-}
+
+})  
+
+
+table.addEventListener('click', function(event) {
+      if (event.target.className != 'editButton') return;
+ EditUser()
+})
 
 //===== Modal Window
+let forms = document.querySelectorAll('.modal')
 let showForm = document.querySelector('.addUserForm')
 let AddUser = () => showForm.classList.remove('hide')
-function ModalClose(){showForm.classList.add('hide')}
 
+function ModalClose(){Array.from(forms).map(el => el.classList.add('hide'))}
 
-let overlayClose = document.querySelector('.modal-overlay')
-overlayClose.onclick = function(e) {
+let showEditForm = document.querySelector('.editUserForm')
+let EditUser = () => showEditForm.classList.remove('hide')
+
+let overlayClose = Array.from(document.querySelectorAll('.modal-overlay'))
+overlayClose.map( el => el.onclick = function(e) {
      if(event.target != this) return;
-     ModalClose()
+    ModalClose()
+})
+
+
+// Edit cells
+let editForm = document.querySelector('.editUserForm')
+let inputValues = Array.from(document.querySelectorAll('.editUserForm input'))
+
+table.onclick = function(event) {
+      if (event.target.className != 'editButton') return;
+let findRow = event.target.closest('tr')
+let values = Array.from(findRow.querySelectorAll('td'))
+let saveBtn = editForm.querySelector('input[type="button"]')
+
+inputValues.slice(0, 3).map((val, idx) => {
+  let elems = values.slice(0, 3).map(el => el.innerHTML)
+  val.value = elems[idx]
+})
+ let removeRow = event.target.closest('tr')
+  let userID = removeRow.querySelector('td').innerHTML
+saveBtn.onclick = function(event) {
+let id = inputValues[0]
+let name = inputValues[1]
+let age = inputValues[2]
+if(id.value != values[0].innerHTML || name.value != values[1].innerHTML || age.value != values[2].innerHTML){
+if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
+values[0].innerHTML = id.value
+values[1].innerHTML = name.value
+values[2].innerHTML = age.value
+
+fetch(`https://ibim-test.firebaseio.com/users.json`)
+        .then(response => response.json())
+        .then(data => { 
+          let a = Object.values(data).map(el => Object.values(el)[1])        
+        let chID = a.indexOf(`${userID}`)
+        let user = {
+            ID: id.value,
+            Name: name.value,
+            Age: age.value
+        };
+
+         fetch(`https://ibim-test.firebaseio.com/users/${chID}.json`, 
+          {method: "PATCH",
+           body: JSON.stringify(user),
+          headers: {'Content-type': 'application/json'}})
+        .then(response => response.json())   
+  }).then(ModalClose()) 
+} return false
+    } ModalClose()
+  }
 }
+
 //=== User Form Validation
 
 let sendform = document.querySelector('input[type="button"]')
@@ -67,27 +140,31 @@ sendform.addEventListener('click', function(e) {
 	let age = inputs[2]
 if(IdValidator(id) && NameValidator(name) && AgeValidator(age)){
   
-		 let person = {
-		ID: id.value,
+		 let user = {
+		 	      ID: id.value,
             Name: name.value,
             Age: age.value
         };
         fetch(`https://ibim-test.firebaseio.com/users.json`, 
         	{method: 'POST',
-        	body: JSON.stringify(person),
+        	body: JSON.stringify(user),
         	headers: {'Content-type': 'application/json'}
         	})
         .then(response => response.json())
-				.then(data => { users.push(person)
-                  let newPerson = `
-                <tr><td>${person.ID}</td><td>${person.Name}</td><td>${person.Age}</td><td><button class="removeButton">Удалить</button></td></tr>
+				.then(data => { users.push(user)
+                  let newUser = `
+                <tr><td>${user.ID}</td><td>${user.Name}</td><td>${user.Age}</td><td>
+                <button class="removeButton">Удалить</button>
+                <button class="editButton">Изменить</button>
+                </td></tr>
                 `
-                document.querySelector('table').insertAdjacentHTML('beforeEnd', newPerson)
+                document.querySelector('table').insertAdjacentHTML('beforeEnd', newUser)
                                 })
          .catch(alert)
          .then(ModalClose())
-	.then(inputs.map(input => input.value = ''))
+         .then(inputs.map(input => input.value = ''))
         .then(alert('Пользователь добавлен'))
+
                
   return true;
 	} else false;
@@ -101,7 +178,7 @@ let value = inp.value
 let match = ids.forEach(el => {
 	if(+el === +value){
 		return (alert('Такой ID уже есть'))
-		return false
+    return false
  } else return;
 	})
  	if(!inp.value){
