@@ -24,7 +24,8 @@ table,
 }
 .buttons button,
 input[type="button"],
-.removeButton {
+.removeButton,
+.editButton {
 	margin: 5px 0;
 	display: inline-block;
     font-weight: 400;
@@ -32,6 +33,7 @@ input[type="button"],
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
+    outline: none;
     background-color: transparent;
     padding: .375rem .75rem;
     font-size: 1rem;
@@ -45,13 +47,20 @@ input[type="button"],
 .removeButton {
     color: #dc3545;
     border: 2px solid #dc3545;
-    background-color:  transparent;
     margin: 5px;
-    outline: none;
 }
 .removeButton:hover {
 	color: #fff;
 	background-color: #dc3545;
+}
+.editButton {
+color: #007bff;
+border: 2px solid #007bff;
+margin: 5px;
+}
+.editButton:hover {
+	color: #fff;
+	background-color: #007bff;
 }
 form {
 	display: block;
